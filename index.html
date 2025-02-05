@@ -6,6 +6,17 @@
     <title>APPOINTMENTS</title>
 </head>
 <body>
+    <h1>APPOINTMENTS</h1>
+    <h2>กรอกช้อมูล</h2>
+    <form id="create-form">
+        <input type="hidden" id="edit-id"/>
+        <p>ชื่อการจอง :<input type="text" id="input-title"/></p>
+        <p>วันที่จอง :<input type="date" id="input-date"></p>
+        <p>เวลา :<input type="hidden" id="start-time">
+        <input type="time" id="end-time"></p>
+        <button onclick="addLocal()">SAVE</button>
+    </form>
+    <script src="script.js"></script>
     
 </body>
 </html>
