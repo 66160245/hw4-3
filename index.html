@@ -10,10 +10,10 @@
     <h2>กรอกช้อมูล</h2>
     <form id="create-form">
         <input type="hidden" id="edit-id"/>
-        <h3>ชื่อการจอง : <input type="text" id="input-title"/></h3>
-        <h3>วันที่จอง : <input type="date" id="input-date"></h3>
-        <h3>เวลา : <input type="time" id="start-time">
-            <input type="time" id="end-time"></h3>
+        <h3>ชื่อการจอง : <input type="text" id="input-title" required></h3>
+        <h3>วันที่จอง : <input type="date" id="input-date" required></h3>
+        <h3>เวลา : <input type="time" id="start-time" required>
+            <input type="time" id="end-time" required></h3>
         <button  type="submit">SAVE</button>
     </form>
     <div id="appDisplay"></div>
