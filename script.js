@@ -16,10 +16,6 @@ document.getElementById("create-form").addEventListener("submit", function (even
 
 function createAppointment(appointment) {
 
-    if (checkTimeConflict(appointment.date, appointment.startTime, appointment.endTime)) {
-        return;
-    }
-
     let newAppointment = JSON.parse(localStorage.getItem("appointData")) || [];
 
     newAppointment.push(appointment);
@@ -31,10 +27,12 @@ function createAppointment(appointment) {
 
 }
 
-function checkTimeConflict(date, startTime, endTime) {
+
+function checkTimeConflict(id, date, startTime, endTime) {
     let newAppointment = JSON.parse(localStorage.getItem("appointData")) || [];
     return newAppointment.some(app =>
         app.date === date &&
+        app.id !== id &&
         (
             (startTime >= app.startTime && startTime < app.endTime) ||
             (endTime > app.startTime && endTime <= app.endTime) ||
@@ -55,6 +53,11 @@ function cancelAppointment(id){
 
 }
 
+function getUpcomingAppointments(){
+    let today = new Date().toISOString().split("T")[0];
+    return (JSON.parse(localStorage.getItem("appointData")) || []).filter(app => app.date >= today);
+}
+
 function showData() {
     let list = JSON.parse(localStorage.getItem("appointData")) || [];
     const appContrainer = document.getElementById("appDisplay");
@@ -62,7 +65,12 @@ function showData() {
 
     list.forEach((appointment) => {
         const appList = document.createElement("li");
-        appList.style.color = checkTimeConflict(appointment.date,appointment.startTime,appointment.endTime) ? "red" : "black";
+
+        const checkTime = checkTimeConflict(appointment.id,appointment.date,appointment.startTime,appointment.endTime);
+        
+        appList.style.color = checkTime ? "red" : "black";
+
+        const cancelled = appointment.status === "cancelled" ? "text-decoration: line-through;" : "";
         appList.innerHTML = `
             <p><strong>TITLE:</strong> ${appointment.title}</p>
             <p><strong>DATE:</strong> ${appointment.date}</p>
@@ -77,3 +85,4 @@ function showData() {
 
 
 }
+showData(getUpcomingAppointments());
