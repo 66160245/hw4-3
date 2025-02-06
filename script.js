@@ -8,7 +8,7 @@ document.getElementById("create-form").addEventListener("submit", function (even
         date: document.getElementById("input-date").value,
         startTime: document.getElementById("start-time").value,
         endTime: document.getElementById("end-time").value,
-        status: "confirm"
+        status: "confirmed"
 
     };
     createAppointment(appointment);
@@ -63,6 +63,19 @@ function showData() {
     const appContrainer = document.getElementById("appDisplay");
     appContrainer.innerHTML = "";
 
+    let now = new Date();
+    let currentDate = now.toISOString().split("T")[0];
+    let currentTime = now.toTimeString().split(" ")[0].substring(0, 5);
+    list = list.filter(app => 
+        app.date > currentDate || (app.date === currentDate && app.endTime > currentTime)
+    );
+    list.sort((a, b) => {
+        if (a.date !== b.date) {
+            return a.date.localeCompare(b.date); 
+        }
+        return a.startTime.localeCompare(b.startTime); 
+    });
+
     list.forEach((appointment) => {
         const appList = document.createElement("li");
 
@@ -71,6 +84,8 @@ function showData() {
         appList.style.color = checkTime ? "red" : "black";
 
         const cancelled = appointment.status === "cancelled" ? "text-decoration: line-through;" : "";
+
+
         appList.innerHTML = `
             <p><strong>TITLE:</strong> ${appointment.title}</p>
             <p><strong>DATE:</strong> ${appointment.date}</p>
